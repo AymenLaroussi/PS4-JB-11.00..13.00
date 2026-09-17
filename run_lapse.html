@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" manifest="cache.appcache">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ps4 lapse</title>
+<style>
+  html, body { margin:0; padding:0; background:#000; color:#00ff41;
+               font:15px/1.45 "Courier New", Consolas, monospace;
+               height:100%; overflow:hidden; }
+  #bgvideo { position:fixed; top:0; right:0; bottom:0; left:0;
+             width:100%; height:100%; object-fit:cover; z-index:0;
+             background:#000; }
+  #overlay { position:fixed; top:0; right:0; bottom:0; left:0; z-index:1;
+             background:rgba(0,0,0,.48); }
+  #scan { position:fixed; top:0; right:0; bottom:0; left:0; z-index:4;
+          pointer-events:none; opacity:.55;
+          background:repeating-linear-gradient(0deg,
+              rgba(0,255,65,.05) 0 1px, transparent 1px 3px); }
+  #wrap { position:relative; z-index:2; height:100vh; box-sizing:border-box;
+          padding:20px; display:flex; flex-direction:column;
+          justify-content:center; }
+  #state { font-size:34px; font-weight:700; margin:0 0 16px;
+           text-align:center; letter-spacing:.08em; color:#00ff41;
+           text-shadow:0 0 10px rgba(0,255,65,.8), 0 0 24px rgba(0,255,65,.4); }
+  #out { white-space:pre-wrap; font:13px/1.5 "Courier New", Consolas, monospace;
+         background:rgba(0,0,0,.55); border:1px solid rgba(0,255,65,.25);
+         border-radius:5px; padding:14px 16px; flex:1;
+         overflow-y:auto; color:#4dff77; text-shadow:0 0 6px rgba(0,255,65,.35); }
+  #out::-webkit-scrollbar { width:8px; }
+  #out::-webkit-scrollbar-thumb { background:rgba(0,255,65,.3); border-radius:4px; }
+  .ok { color:#00ff41; } .bad { color:#ff4040; text-shadow:0 0 10px rgba(255,0,0,.6); }
+  .warn { color:#ffe14a; text-shadow:0 0 10px rgba(255,225,74,.5); }
+  #author { position:fixed; bottom:10px; left:0; right:0; z-index:5;
+            text-align:center; font-size:14px; font-weight:700;
+            letter-spacing:.1em; color:rgba(0,255,65,.75);
+            text-shadow:0 0 10px rgba(0,255,65,.5);
+            pointer-events:none; }
+</style>
+</head>
+<body>
+<video id="bgvideo" autoplay muted loop playsinline>
+  <source src="public/loading.mp4" type="video/mp4">
+</video>
+<div id="overlay"></div>
+<div id="wrap">
+  <div id="state">loading lapse chain...</div>
+  <div id="out"></div>
+</div>
+<div id="scan"></div>
+<div id="author">&copy; 2026 Aymen Laroussi</div>
+<script>
+(function () {
+    var vids = {
+        loading: "public/loading.mp4",
+        success: "public/success.mp4",
+        error: "public/error.mp4",
+        unsupported: "public/notsupport.mp4"
+    };
+    var video = document.getElementById("bgvideo");
+    function play(src) {
+        if (video.currentSrc && video.currentSrc.indexOf(src) !== -1) return;
+        video.src = src;
+        video.load();
+        video.play().catch(function () {});
+    }
+    window.ps4video = function (status) {
+        play(vids[status] || vids.loading);
+    };
+    window.ps4video("loading");
+})();
+</script>
+<script type="module">import "./chain_lapse.js";</script>
+</body>
+</html>
