@@ -23,7 +23,7 @@ The chain is selected automatically from the browser's User-Agent.
 
 ## Usage
 
-1. 
+1. Open https://aymenlaroussi.github.io/PS4-JB-11.00..13.00/
 2. Wait for `CACHED (first run)`. This stores everything in AppCache so later
    runs work offline.
 3. Press X to start.
